@@ -1,0 +1,16 @@
+{% extends "blog.html" %}
+
+{% block head %}
+<title>{{ blog_title }} -- Entries for {{ year }}</title>
+{{ block.super }}
+{% endblock %}
+
+{% block subtitle %}
+<h2>Entries for {{ year }}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+{% for month in date_list %}
+    <p><a href="{{ month|date:"b" }}/">Entries for {{ month|date:"F" }}, {{ year }}</a></p>
+{% endfor %}
+{% endblock %}

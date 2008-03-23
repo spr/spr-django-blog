@@ -1,0 +1,37 @@
+{% extends "blog.html" %}
+{% load blog_helpers %}
+{% load calendar %}
+
+{% block head %}
+<title>{{ blog_title }} -- Entries for {{ month|date:"F, Y" }}</title>
+{{ block.super }}
+{% endblock %}
+
+{% block subtitle %}
+<h2>Entries for {{ month|date:"F, Y" }}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+
+{% if not object_list %}
+    <p>No entries for {{ month|date:"F, Y" }}</p>
+{% else %}
+    {% for entry in object_list %}
+        {% render_abbv_entry entry %}
+    {% endfor %}
+{% endif %}
+
+<p><a href="../../{{ previous_month|date:"Y" }}/{{ previous_month|date:"b" }}">
+    Entries for {{ previous_month|date:"F, Y" }}</a></p>
+
+{% if next_month %}
+    <p><a href="../../{{ next_month|date:"Y" }}/{{ next_month|date:"b" }}">
+    Entries for {{ next_month|date:"F, Y" }}</a></p>
+{% endif %}
+
+{% endblock %}
+
+{% block calendar %}
+{% month_navigation month previous_month next_month %}
+{% month_cal month.year month.month %}
+{% endblock %}

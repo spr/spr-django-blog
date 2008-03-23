@@ -1,0 +1,19 @@
+{% extends "blog.html" %}
+
+{% block head %}
+<title>{{ blog_title }} -- Tag Based Feeds</title>
+{{ block.super }}
+{% endblock head %}
+
+{% block subtitle %}
+<h2>RSS Feeds Per Topic</h2>
+{% endblock subtitle %}
+
+{% block content %}
+<ul>
+    {% for tag in object_list %}
+    <li><a href="/blog/feeds/tag/{{ tag.name }}/"><img src="/css/rss.png"
+        border="0" height="12" width="12" /> {{ tag.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

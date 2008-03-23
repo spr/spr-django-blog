@@ -1,0 +1,9 @@
+{% load markup %}
+<p>{{ entry.content|markdown }}</p>
+<div class="box">
+Posted: {{ entry.created_on|date:"M d, Y" }} |
+<strong>Tags</strong>: 
+{% for tag in entry.tags.all %}
+<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+{% endfor %}
+</div>

@@ -1,0 +1,27 @@
+{% extends "blog.html" %}
+{% load blog_helpers %}
+{% load calendar %}
+
+{% block head %}
+<title>{{ blog_title }} -- Entries for {{ day|date:"D F j, Y" }}</title>
+{{ block.super }}
+{% endblock %}
+
+{% block subtitle %}
+<h2>Entries for {{ day|date:"D F j, Y" }}</h2>
+{% endblock %}
+
+{% block content %}
+{% if not object_list %}
+    <p>No entries for {{ day|date:"D F j, Y" }}</p>
+{% else %}
+    {% for entry in object_list %}
+        {% render_abbv_entry entry %}
+    {% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block calendar %}
+{% month_navigation day %}
+{% month_cal day.year day.month %}
+{% endblock %}

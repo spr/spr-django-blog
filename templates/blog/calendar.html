@@ -1,0 +1,14 @@
+<table>
+<tr>
+{% for day in headers %}
+<th>{{ day|date:"D"|slice:":2" }}</hd>
+{% endfor %}
+</tr>
+{% for week in calendar %}
+<tr>
+{% for day in week %}
+<td{% if not day.in_month %} style="color:gray;" {% endif %}>{% if day.event %}<a href="{{ day.link }}">{{ day.day|date:"j" }}</a>{% else %}{{ day.day|date:"j" }}{% endif %}</td>
+{% endfor %}
+</tr>
+{% endfor %}
+</table>

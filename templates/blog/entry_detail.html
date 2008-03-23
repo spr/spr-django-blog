@@ -1,0 +1,29 @@
+{% extends "blog.html" %}
+{% load blog_helpers %}
+{% load calendar %}
+
+{% block head %}
+<title>{{ object.title }} - {{ object.created_on|date:"M j, Y" }}</title>
+{{ block.super }}
+{% endblock %}
+
+{% block subtitle %}
+<h2>{{ object.title }} / {{ object.created_on|date:"M j, Y" }}</h2>
+{% endblock subtitle %}
+
+{% block content %}
+{% render_entry object %}
+<a name='comments'></a>
+{% render_comments object %}
+{% if object.created_on|lessthanxdays:"10" %}
+<a name='post_comment'></a>
+{% render_comment_form object comment_form %}
+{% else %}
+<h3>Comments are closed.</h3>
+{% endif %}
+{% endblock %}
+
+{% block calendar %}
+{% month_navigation object.created_on.date %}
+{% month_cal object.created_on.year object.created_on.month %}
+{% endblock %}

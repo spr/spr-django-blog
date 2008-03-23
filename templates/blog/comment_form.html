@@ -1,0 +1,9 @@
+<div class="box">
+<h3>Post a Comment</h3>
+<form action="{{ e.get_absolute_url }}" method="POST">
+<table>
+    {{ form.as_table }}
+</table>
+<input type="submit" value="submit" />
+</form>
+</div>

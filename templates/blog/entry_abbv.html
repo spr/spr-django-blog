@@ -1,0 +1,25 @@
+{% load markup %}
+{% load blog_helpers %}
+<h1>{{ entry.title }}</h1>
+<p>{{ entry.content|markdown|truncatewords_html:"150" }}</p>
+{% if entry.content|morewordsthan_html:"150" %}
+<p><a href="{{ entry.get_absolute_url }}">Continue Reading</a></p>
+{% else %}
+{% endif %}
+<div class="box">
+<a href="{{ entry.get_absolute_url }}">Permalink</a> |
+
+{% if entry.comments.all %}
+<a href="{{ entry.get_absolute_url }}#comments">{{ entry.comments.all|length }} comment{{ entry.comments.all|pluralize }}</a> |
+{% else %}
+    {% if entry.created_on|lessthanxdays:"10" %}
+    <a href="{{ entry.get_absolute_url }}#post_comment">leave comment</a> |
+    {% endif %}
+{% endif %}
+
+Posted: {{ entry.created_on|date:"M d, Y" }} |
+<strong>Tags</strong>: 
+{% for tag in entry.tags.all %}
+<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>
+{% endfor %}
+</div>

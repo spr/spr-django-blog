@@ -1,0 +1,15 @@
+These settings are needed in settings.py:
+AKISMET_API_KEY = 'akismet key here'
+BLOG_TITLE = "Your Blog's Title Here"
+BLOG_PATH = "/path/to/blog/" # sites will append the correct domain
+BLOG_AUTHOR = "Your Name Here"
+BLOG_AUTHOR_EMAIL = "you@example.com"
+BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR
+
+The template 'base_blog.html' needs to exist and contain the following blocks:
+head
+    -- This stuff in the <head></head> area
+subtitle
+    -- This is the local page title/name.
+content
+    -- Content!

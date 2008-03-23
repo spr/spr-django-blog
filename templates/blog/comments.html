@@ -1,0 +1,15 @@
+{% load markup %}
+<ul>
+{% for comment in entry.comments.all %}
+    {% if not comment.spam %}
+    <li>
+    {% if comment.website %}
+        <a rel="nofollow" href="{{ comment.website }}">{{ comment.name }}</a>
+    {% else %}
+        {{ comment.name|escape }}
+    {% endif %}
+            said at {{ comment.date|date:"M d, Y" }}:</li>
+        {{ comment.comment|striptags|escape|markdown }}
+    {% endif %}
+{% endfor %}
+</ul>

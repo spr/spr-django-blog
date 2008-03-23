@@ -1,0 +1,11 @@
+{% if prev %}
+<a href="{{ prev.link }}">&lt;&lt;</a>
+{% else %}
+&lt;&lt;
+{% endif %}
+<a href="{{ now.link }}">{{ now.name }}</a>
+{% if next %}
+<a href="{{ next.link }}">&gt;&gt;</a>
+{% else %}
+&gt;&gt;
+{% endif %}

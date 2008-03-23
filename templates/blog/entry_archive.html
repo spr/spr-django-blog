@@ -1,0 +1,17 @@
+{% extends "blog.html" %}
+{% load blog_helpers %}
+
+{% block head %}
+<title>{{ blog_title }} -- Recent Entries</title>
+{{ block.super }}
+{% endblock %}
+
+{% block subtitle %}
+<h2>Recent Entries</h2>
+{% endblock subtitle %}
+
+{% block content %}
+{% for entry in latest %}
+{% render_abbv_entry entry %}
+{% endfor %}
+{% endblock %}
