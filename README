@@ -6,10 +6,13 @@ BLOG_AUTHOR = "Your Name Here"
 BLOG_AUTHOR_EMAIL = "you@example.com"
 BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR
 
-The template 'base_blog.html' needs to exist and contain the following blocks:
+The template 'blog.html' needs to exist and contain the following blocks:
 head
-    -- This stuff in the <head></head> area
+    -- This is stuff in the <head></head> area
 subtitle
     -- This is the local page title/name.
 content
     -- Content!
+
+Defaults to using markdown for formating, be sure to have django.contrib.markup
+in your INSTALLED_APPS.
