@@ -26,6 +26,10 @@ def render_comment_form(entry, form):
 def render_comments(entry):
     return {'entry': entry}
 
+@register.inclusion_tag('blog/comment.html')
+def render_comment(comment):
+    return {'comment': comment}
+
 @register.filter
 def lessthanxdays(value, arg):
     try:
