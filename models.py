@@ -62,7 +62,7 @@ class Comment(models.Model):
     karma = models.SmallIntegerField(default=0)
     spam = models.BooleanField(default=True)
     date = models.DateTimeField(default=datetime.now)
-    comment = models.TextField(help_text='<a href="http://ollieman.net/markdown-cheatsheet/">Markdown syntax</a> allowed | (X)HTML tags stripped')
+    comment = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/basics">Markdown syntax</a> allowed | (X)HTML tags stripped')
     def __unicode__(self):
         return unicode(self.name) + u" - " + unicode(self.date)
     class Admin:
