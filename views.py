@@ -5,9 +5,8 @@ from django.newforms import form_for_model
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from calendar import month_abbr
-from settings import BLOG_TITLE
+from django.conf import settings
 from blog.models import Entry, Tag, Comment
-import settings
 from blog.comment_filters import akismet
 
 def entry_detail(request, year, month, day, slug):
@@ -36,7 +35,7 @@ def entry_detail(request, year, month, day, slug):
         form = CommentForm()
 
     return render_to_response('blog/entry_detail.html',
-            {'blog_title': BLOG_TITLE, 'tags': Tag.objects.all(),
+            {'blog_title': settings.BLOG_TITLE, 'tags': Tag.objects.all(),
                 'object': entry, 'comment_form': form},
                 context_instance=RequestContext(request))
 
@@ -45,7 +44,7 @@ def tag_list(request, **kwargs):
         dict = {'queryset': Entry.objects.filter(tags__name=kwargs['tag']).order_by('-created_on'),
                 'paginate_by': 5, 'template_object_name': 'entry',
                 'template_name': 'blog/tag_list.html',
-                'extra_context': {'blog_title': BLOG_TITLE,
+                'extra_context': {'blog_title': settings.BLOG_TITLE,
                     'thetag': Tag.objects.get(name=kwargs['tag'])}}
     except Tag.DoesNotExist:
         raise Http404

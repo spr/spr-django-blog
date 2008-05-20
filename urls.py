@@ -4,7 +4,7 @@ from django.views.generic.simple import redirect_to
 from django.contrib.syndication.views import feed
 from django.http import Http404
 from blog.models import Entry, Tag, Comment
-from settings import BLOG_TITLE
+from django.conf import settings
 from blog.feeds import RecentEntries, EntriesByTag
 from blog.views import entry_detail, tag_list
 from django.newforms import form_for_model
@@ -18,7 +18,7 @@ feed_dict = {
 urlpatterns = patterns('',
         (r'^feeds/tag/$', list_detail.object_list, 
             {'queryset': Tag.objects.all(), 'template_name': 'blog/tags.html',
-                'extra_context': {'blog_title': BLOG_TITLE}}
+                'extra_context': {'blog_title': settings.BLOG_TITLE}}
             ),
         (r'^feeds/(?P<url>.*)/$', feed, {'feed_dict': feed_dict}),
 )
@@ -27,7 +27,7 @@ urlpatterns = patterns('',
 entry_date = {'queryset': Entry.objects.filter(is_draft=False),
         'date_field': 'created_on',
         'allow_empty': False,
-        'extra_context': {'blog_title': BLOG_TITLE}}
+        'extra_context': {'blog_title': settings.BLOG_TITLE}}
 
 urlpatterns += patterns('',
         (r'(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$',

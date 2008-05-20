@@ -1,12 +1,12 @@
-from settings import AKISMET_API_KEY
+from django.conf import settings
 
 def akismet(request, comment):
-    if AKISMET_API_KEY == None:
+    if settings.AKISMET_API_KEY == None:
         return False
     from akismet import Akismet
     from django.contrib.sites.models import Site
     # Lifted from comment_utils by James Bennett
-    akismet_api = Akismet(key=AKISMET_API_KEY,
+    akismet_api = Akismet(key=settings.AKISMET_API_KEY,
             blog_url='http://%s/' % Site.objects.get_current().domain)
     if akismet_api.verify_key():
         akismet_data = { 'comment_type': 'comment',
