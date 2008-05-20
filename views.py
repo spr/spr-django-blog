@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import list_detail
 from django.template import RequestContext
 from django.newforms import form_for_model
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from datetime import datetime
 from calendar import month_abbr
 from django.conf import settings
