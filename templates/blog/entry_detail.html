@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block subtitle %}
-<h2>{{ object.title }} / {{ object.created_on|date:"M j, Y" }}</h2>
+{{ object.title }} / {{ object.created_on|date:"M j, Y" }}
 {% endblock subtitle %}
 
 {% block content %}
