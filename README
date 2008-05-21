@@ -6,8 +6,13 @@ BLOG_AUTHOR = "Your Name Here"
 BLOG_AUTHOR_EMAIL = "you@example.com"
 BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR # Used in RSS Feed
 
-Defaults to using markdown for formating, be sure to have django.contrib.markup
-in your INSTALLED_APPS and Python Markdown installed.
+INSTALLED_APPS will need to have:
+django.contrib.markup
+django.contrib.auth
+django.contrib.admin
+django.contrib.sites
+
+Defaults to using markdown for formating be sure to have Python Markdown installed.
 
 The default templates extend from 'blog.html' which will extend 3 basic blocks: 'head', 'subtitle', 'content'. One optional block 'calendar' is also available. Details are at the end of the file.
 
