@@ -9,10 +9,10 @@ from django.conf import settings
 from blog.models import Entry, Tag, Comment
 from blog.comment_filters import akismet
 
-def entry_detail(request, year, month, day, slug):
+def entry_detail(request, year, month, day, slug, draft=False):
     entry = get_object_or_404(Entry, slug=slug, created_on__year=year,
             created_on__month=list(month_abbr).index(month.title()),
-                created_on__day=day, is_draft=False)
+                created_on__day=day, is_draft=draft)
     CommentForm = form_for_model(Comment,
             fields=('name', 'email', 'website', 'comment'))
     diff = datetime.now() - entry.created_on

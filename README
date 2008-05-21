@@ -1,18 +1,62 @@
-These settings are needed in settings.py:
+The following variables need to be defined in your settings.py file:
 AKISMET_API_KEY = 'akismet key here'
 BLOG_TITLE = "Your Blog's Title Here"
-BLOG_PATH = "/path/to/blog/" # sites will append the correct domain
+BLOG_PATH = "/path/to/blog/" # IE: http://scottr.org/blog/ would be "/blog/"
 BLOG_AUTHOR = "Your Name Here"
 BLOG_AUTHOR_EMAIL = "you@example.com"
-BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR
-
-The template 'blog.html' needs to exist and contain the following blocks:
-head
-    -- This is stuff in the <head></head> area
-subtitle
-    -- This is the local page title/name.
-content
-    -- Content!
+BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR # Used in RSS Feed
 
 Defaults to using markdown for formating, be sure to have django.contrib.markup
-in your INSTALLED_APPS.
+in your INSTALLED_APPS and Python Markdown installed.
+
+The default templates extend from 'blog.html' which will extend 3 basic blocks: 'head', 'subtitle', 'content'. One optional block 'calendar' is also available. Details are at the end of the file.
+
+CSS that is used in the default templates:
+class="box" - used to draw boxes around the entry footer (permalink, date, tags)
+
+Django Template Tags that are provided to help you out:
+
+list_tags
+    - Will produce a list of the tags currently in use:
+    <a href="/tags/first/">first</a> | <a href="/tags/seconds">second</a>
+month_navigation
+month_cal
+    - Should be used in 'blog.html' for the front page of the blog like so:
+        {% block calendar %}
+        {% month_navigation %}
+        {% month_cal %}
+        {% endblock calendar %}
+
+'blog.html' base template details:
+head
+    -- This is stuff in the <head></head> area
+    -- Will add RSS feeds and <title>
+subtitle
+    -- This is the local page title/name.
+    -- Only contains text, no tags
+content
+    -- Content!
+calendar
+    -- Used for an archive navigating calendar
+
+Example:
+{% load blog_helpers %}
+{% load calendar %}
+<html>
+    <head>
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        <h1>The Development Blog!</h1>
+        <h2>{% block subtitle %}{% endblock subtitle %}</h2>
+        {% block content %}
+        {% endblock content %}
+
+        <h3>Calendar</h3>
+        {% block calendar %}
+        {% month_navigation %}
+        {% month_cal %}
+        {% endblock calendar %}
+    </body>
+</html>

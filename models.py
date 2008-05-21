@@ -34,7 +34,8 @@ class Entry(models.Model):
     def __unicode__(self):
         return unicode(self.title)
     class Admin:
-        pass
+        list_display = ('title', 'created_on', 'is_draft')
+        list_filter = ['is_draft']
     def save(self):
         self.last_updated = datetime.now()
         super(Entry, self).save()
@@ -47,11 +48,18 @@ class Entry(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('blog.views.entry_detail', (), {
-            'year': self.created_on.year,
-            'month': self.created_on.strftime("%b").lower(),
-            'day': self.created_on.strftime("%d"),
-            'slug': self.slug})
+        if not self.is_draft:
+            return ('blog.views.entry_detail', (), {
+                'year': self.created_on.year,
+                'month': self.created_on.strftime("%b").lower(),
+                'day': self.created_on.strftime("%d"),
+                'slug': self.slug})
+        else:
+            return ('blog_draft_entry', (), {
+                'year': self.created_on.year,
+                'month': self.created_on.strftime("%b").lower(),
+                'day': self.created_on.strftime("%d"),
+                'slug': self.slug})
 
 class Comment(models.Model):
     entry = models.ForeignKey(Entry, related_name='comments')

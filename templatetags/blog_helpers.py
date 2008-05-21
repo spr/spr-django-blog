@@ -7,6 +7,23 @@ register = template.Library()
 
 @register.inclusion_tag('blog/list_tags.html')
 def list_tags():
+    """
+    Produces a basic list of all the tags in the blog.
+
+    Example output::
+
+        <a href="/tags/first/">first</a>
+        |
+        <a href="/tags/second/">second</a>
+        |
+        <a href="/tags/third/">third</a>
+
+    Use::
+        
+        <p>
+        {% list_tags %}
+        </p>
+    """
     tags = Tag.objects.all()
     return {'tags': tags}
 
