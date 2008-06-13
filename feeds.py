@@ -13,7 +13,7 @@ class RecentEntries(Feed):
     copyright = settings.BLOG_COPYRIGHT
 
     def items(self):
-        return Entry.objects.order_by('-created_on')[:5]
+        return Entry.objects.filter(is_draft=False).order_by('-created_on')[:5]
 
     def categories(self):
         return [tag.name for tag in Tag.objects.all()]
