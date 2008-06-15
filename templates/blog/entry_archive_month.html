@@ -21,11 +21,11 @@ Entries for {{ month|date:"F, Y" }}
     {% endfor %}
 {% endif %}
 
-<p><a href="../../{{ previous_month|date:"Y" }}/{{ previous_month|date:"b" }}">
+<p><a href="../../{{ previous_month|date:"Y" }}/{{ previous_month|date:"b" }}/">
     Entries for {{ previous_month|date:"F, Y" }}</a></p>
 
 {% if next_month %}
-    <p><a href="../../{{ next_month|date:"Y" }}/{{ next_month|date:"b" }}">
+    <p><a href="../../{{ next_month|date:"Y" }}/{{ next_month|date:"b" }}/">
     Entries for {{ next_month|date:"F, Y" }}</a></p>
 {% endif %}
 
