@@ -8,8 +8,6 @@ class Tag(models.Model):
     name = models.CharField(max_length=50)
     def __unicode__(self):
         return unicode(self.name)
-    class Admin:
-        pass
 
     @permalink
     def get_absolute_url(self):
@@ -26,16 +24,12 @@ class Entry(models.Model):
     title = models.CharField(max_length=255)
     created_on = models.DateTimeField(default=datetime.now)
     last_updated = models.DateTimeField(editable=False)
-    slug = models.SlugField(unique_for_date='created_on',
-            prepopulate_from=("title",))
+    slug = models.SlugField(unique_for_date='created_on')
     content = models.TextField()
     tags = models.ManyToManyField(Tag, blank=True, null=True)
     is_draft = models.BooleanField(default=False)
     def __unicode__(self):
         return unicode(self.title)
-    class Admin:
-        list_display = ('title', 'created_on', 'is_draft')
-        list_filter = ['is_draft']
     def save(self):
         self.last_updated = datetime.now()
         super(Entry, self).save()
@@ -76,3 +70,20 @@ class Comment(models.Model):
     class Admin:
         list_display = ('entry', 'name', 'email', 'website', 'spam')
         list_filter = ['spam', 'date']
+
+from django.contrib import admin
+
+admin.site.register(Tag)
+
+class EntryAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_on', 'is_draft')
+    list_filter = ['is_draft']
+    prepopulated_fields = {'slug': ("title",)}
+
+admin.site.register(Entry, EntryAdmin)
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('entry', 'name', 'email', 'website', 'spam')
+    list_filter = ['spam', 'date']
+
+admin.site.register(Comment, CommentAdmin)
