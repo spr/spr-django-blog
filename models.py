@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
+
     def __unicode__(self):
         return unicode(self.name)
 
@@ -28,8 +29,13 @@ class Entry(models.Model):
     content = models.TextField()
     tags = models.ManyToManyField(Tag, blank=True, null=True)
     is_draft = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Entries'
+
     def __unicode__(self):
         return unicode(self.title)
+
     def save(self):
         self.last_updated = datetime.now()
         super(Entry, self).save()
@@ -65,5 +71,6 @@ class Comment(models.Model):
     spam = models.BooleanField(default=True)
     date = models.DateTimeField(default=datetime.now)
     comment = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/basics">Markdown syntax</a> allowed | (X)HTML tags stripped')
+
     def __unicode__(self):
         return unicode(self.name) + u" - " + unicode(self.date)
