@@ -67,23 +67,3 @@ class Comment(models.Model):
     comment = models.TextField(help_text='<a href="http://daringfireball.net/projects/markdown/basics">Markdown syntax</a> allowed | (X)HTML tags stripped')
     def __unicode__(self):
         return unicode(self.name) + u" - " + unicode(self.date)
-    class Admin:
-        list_display = ('entry', 'name', 'email', 'website', 'spam')
-        list_filter = ['spam', 'date']
-
-from django.contrib import admin
-
-admin.site.register(Tag)
-
-class EntryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_on', 'is_draft')
-    list_filter = ['is_draft']
-    prepopulated_fields = {'slug': ("title",)}
-
-admin.site.register(Entry, EntryAdmin)
-
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('entry', 'name', 'email', 'website', 'spam')
-    list_filter = ['spam', 'date']
-
-admin.site.register(Comment, CommentAdmin)

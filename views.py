@@ -1,21 +1,24 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import list_detail
 from django.template import RequestContext
-from django.newforms import form_for_model
 from django.http import HttpResponseRedirect, Http404
-from datetime import datetime
 from calendar import month_abbr
 from django.conf import settings
 from blog.models import Entry, Tag, Comment
+from blog.forms import CommentForm
 from blog.comment_filters import akismet
+import datetime
+import time
 
 def entry_detail(request, year, month, day, slug, draft=False):
-    entry = get_object_or_404(Entry, slug=slug, created_on__year=year,
-            created_on__month=list(month_abbr).index(month.title()),
-                created_on__day=day, is_draft=draft)
-    CommentForm = form_for_model(Comment,
-            fields=('name', 'email', 'website', 'comment'))
-    diff = datetime.now() - entry.created_on
+    date = datetime.date(*time.strptime(year+month+day, '%Y'+'%b'+'%d')[:3])
+    entry = get_object_or_404(Entry, slug=slug,
+            created_on__range=(
+                datetime.datetime.combine(date, datetime.time.min),
+                datetime.datetime.combine(date, datetime.time.max)
+            ), is_draft=draft)
+
+    diff = datetime.datetime.now() - entry.created_on
 
     if request.method == 'POST' and diff.days <= 10:
         form = CommentForm(request.POST)
@@ -26,7 +29,7 @@ def entry_detail(request, year, month, day, slug, draft=False):
                 comment.ip = request.META['REMOTE_ADDR']
             else:
                 comment.ip = request.META['REMOTE_HOST']
-            comment.date = datetime.now()
+            comment.date = datetime.datetime.now()
             comment.karma = 0
             comment.spam = akismet(request, comment)
             comment.save()
