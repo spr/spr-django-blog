@@ -44,7 +44,7 @@ def entry_detail(request, year, month, day, slug, draft=False):
 
 def tag_list(request, **kwargs):
     try:
-        dict = {'queryset': Entry.objects.filter(tags__name=kwargs['tag']).order_by('-created_on'),
+        dict = {'queryset': Entry.objects.filter(tags__name=kwargs['tag'], is_draft=False).order_by('-created_on'),
                 'paginate_by': 5, 'template_object_name': 'entry',
                 'template_name': 'blog/tag_list.html',
                 'extra_context': {'blog_title': settings.BLOG_TITLE,
