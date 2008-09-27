@@ -7,6 +7,7 @@ from django.conf import settings
 from blog.models import Entry, Tag, Comment
 from blog.forms import CommentForm
 from blog.comment_filters import akismet
+from django.core.mail import send_mail
 import datetime
 import time
 
@@ -31,6 +32,11 @@ def entry_detail(request, year, month, day, slug, draft=False):
             comment.karma = 0
             comment.spam = akismet(request, comment)
             comment.save()
+            if (not comment.spam) and settings.BLOG_COMMENT_EMAIL:
+                comment_email = "%s\n--\n%s\n%s\n%s" % (comment.comment,
+                        comment.name, comment.email, comment.website)
+                send_mail('[Blog] %s' % entry.title, comment_email,
+                        comment.email, [entry.author.email], fail_silently=True)
             return HttpResponseRedirect(entry.get_absolute_url())
     else:
         form = CommentForm()

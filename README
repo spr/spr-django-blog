@@ -1,11 +1,15 @@
 The following variables need to be defined in your settings.py file:
-AKISMET_API_KEY = 'akismet key here'
+AKISMET_API_KEY = 'akismet key here' # Set to None or don't have it to skip 
+                                     # spam checking
 BLOG_TITLE = "Your Blog's Title Here"
 BLOG_PATH = "/path/to/blog/" # IE: http://scottr.org/blog/ would be "/blog/"
 BLOG_AUTHOR = "Your Name Here"
 BLOG_AUTHOR_EMAIL = "you@example.com"
 BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR # Used in RSS Feed
 BLOG_COMMENT_LIMIT = 10 # Number of days comments allowed for a post
+BLOG_COMMENT_EMAIL = True # or False. Send author email for non-spam comments
+                          # To have the blog send email you will have to have 
+                          # your EMAIL settings for Django set up correctly.
 
 INSTALLED_APPS will need to have:
 django.contrib.markup
@@ -13,7 +17,7 @@ django.contrib.auth
 django.contrib.admin
 django.contrib.sites
 
-Defaults to using markdown for formating be sure to have Python Markdown installed.
+Defaults to using markdown for formating so be sure to have Python Markdown installed.
 
 The default templates extend from 'blog.html' which will extend 3 basic blocks: 'head', 'subtitle', 'content'. One optional block 'calendar' is also available. Details are at the end of the file.
 
