@@ -4,6 +4,7 @@
 
 {% block head %}
 <title>{{ blog_title }} -- Entries for {{ month|date:"F, Y" }}</title>
+<meta name="robots" content="noindex, follow" />
 {{ block.super }}
 {% endblock %}
 
