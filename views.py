@@ -18,9 +18,7 @@ def entry_detail(request, year, month, day, slug, draft=False):
                 datetime.datetime.combine(date, datetime.time.max)
             ), is_draft=draft)
 
-    diff = datetime.datetime.now() - entry.created_on
-
-    if request.method == 'POST' and diff.days <= 10:
+    if request.method == 'POST' and entry.comments_allowed():
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = Comment(**form.cleaned_data)

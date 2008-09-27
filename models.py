@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import permalink
 from datetime import datetime
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
@@ -45,6 +46,10 @@ class Entry(models.Model):
             'year': self.created_on.year,
             'month': self.created_on.strftime("%b").lower(),
             'day': self.created_on.strftime("%d")})
+
+    def comments_allowed(self):
+        diff = datetime.now() - self.created_on
+        return diff.days <= settings.BLOG_COMMENT_LIMIT
 
     @permalink
     def get_absolute_url(self):

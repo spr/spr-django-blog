@@ -5,6 +5,7 @@ BLOG_PATH = "/path/to/blog/" # IE: http://scottr.org/blog/ would be "/blog/"
 BLOG_AUTHOR = "Your Name Here"
 BLOG_AUTHOR_EMAIL = "you@example.com"
 BLOG_COPYRIGHT = "Copyright (c) 2008, " + BLOG_AUTHOR # Used in RSS Feed
+BLOG_COMMENT_LIMIT = 10 # Number of days comments allowed for a post
 
 INSTALLED_APPS will need to have:
 django.contrib.markup

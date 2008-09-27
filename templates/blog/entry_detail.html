@@ -15,7 +15,7 @@
 {% render_entry object %}
 <a name='comments'></a>
 {% render_comments object %}
-{% if object.created_on|lessthanxdays:"10" %}
+{% if object.comments_allowed %}
 <a name='post_comment'></a>
 {% render_comment_form object comment_form %}
 {% else %}

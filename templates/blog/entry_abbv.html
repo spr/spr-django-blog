@@ -12,7 +12,7 @@
 {% if entry.comments.all %}
 <a href="{{ entry.get_absolute_url }}#comments">{{ entry.comments.all|length }} comment{{ entry.comments.all|pluralize }}</a> |
 {% else %}
-    {% if entry.created_on|lessthanxdays:"10" %}
+    {% if entry.comments_allowed %}
     <a href="{{ entry.get_absolute_url }}#post_comment">leave comment</a> |
     {% endif %}
 {% endif %}
