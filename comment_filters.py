@@ -1,7 +1,10 @@
 from django.conf import settings
 
 def akismet(request, comment):
-    if settings.AKISMET_API_KEY == None:
+    try:
+        if settings.AKISMET_API_KEY == None:
+            return False
+    except AttributeError:
         return False
     from akismet import Akismet
     from django.contrib.sites.models import Site
