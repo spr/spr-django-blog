@@ -1,6 +1,5 @@
 The following variables need to be defined in your settings.py file:
-AKISMET_API_KEY = 'akismet key here' # Set to None or don't have it to skip 
-                                     # spam checking
+AKISMET_API_KEY = 'akismet key here' # Set to None to disable spam checking
 BLOG_TITLE = "Your Blog's Title Here"
 BLOG_PATH = "/path/to/blog/" # IE: http://scottr.org/blog/ would be "/blog/"
 BLOG_AUTHOR = "Your Name Here"

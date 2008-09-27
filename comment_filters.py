@@ -1,13 +1,10 @@
 from django.conf import settings
+from django.contrib.sites.models import Site
 
 def akismet(request, comment):
-    try:
-        if settings.AKISMET_API_KEY == None:
-            return False
-    except AttributeError:
+    if settings.AKISMET_API_KEY == None:
         return False
     from akismet import Akismet
-    from django.contrib.sites.models import Site
     # Lifted from comment_utils by James Bennett
     akismet_api = Akismet(key=settings.AKISMET_API_KEY,
             blog_url='http://%s/' % Site.objects.get_current().domain)
