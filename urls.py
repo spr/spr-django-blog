@@ -1,3 +1,4 @@
+import datetime, time
 from django.conf.urls.defaults import *
 from django.views.generic import date_based, list_detail
 from django.views.generic.simple import redirect_to
@@ -26,8 +27,22 @@ urlpatterns = patterns('',
 # Entry Generic Views
 entry_date = {'queryset': Entry.objects.filter(is_draft=False),
         'date_field': 'created_on',
-        'allow_empty': False,
+        'allow_empty': True,
         'extra_context': {'blog_title': settings.BLOG_TITLE}}
+
+first_entry_date = Entry.objects.order_by('created_on')[0].created_on
+
+def archive_month_wrapper(request, **kwargs):
+    kwargs['allow_empty'] = True
+    month = datetime.date(*time.strptime(kwargs['month'], '%b')[:3]).month
+    if first_entry_date.year < int(kwargs['year']):
+        return date_based.archive_month(request, **kwargs)
+    if first_entry_date.month < month:
+        return date_based.archive_month(request, **kwargs)
+    if first_entry_date.month == month:
+        kwargs['allow_empty'] = False
+        return date_based.archive_month(request, **kwargs)
+    raise Http404
 
 urlpatterns += patterns('',
         (r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$',
@@ -35,7 +50,7 @@ urlpatterns += patterns('',
         url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/$',
             date_based.archive_day, entry_date, name="entry_day"),
         url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$',
-            date_based.archive_month, entry_date, name="entry_month"),
+            archive_month_wrapper, entry_date, name="entry_month"),
         (r'^(?P<year>\d{4})/$',
             date_based.archive_year, entry_date),
         (r'^draft/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$',
