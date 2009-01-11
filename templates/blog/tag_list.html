@@ -5,6 +5,7 @@
 <title>{{ blog_title }} -- Tag: {{ thetag.name }}</title>
 <link rel="alternate" type="application/rss+xml"
     title="Tagged with {{ thetag.name }}" href="{{ thetag.get_rss_feed }}" />
+<meta name="robots" content="noindex, follow" />
 {% endblock head %}
 
 {% block subtitle %}
