@@ -1,3 +1,5 @@
+Released into the public domain, December 27, 2012. -- SPR
+
 The following variables need to be defined in your settings.py file:
 AKISMET_API_KEY = 'akismet key here' # Set to None to disable spam checking
 BLOG_TITLE = "Your Blog's Title Here"
