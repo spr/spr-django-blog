@@ -11,7 +11,31 @@ Entries for {{ year }}
 {% endblock subtitle %}
 
 {% block content %}
-{% for month in date_list %}
-    <p><a href="{{ month|date:"b" }}/">Entries for {{ month|date:"F" }}, {{ year }}</a></p>
+{% for entries, month in entries_months %}
+{% if entries %}
+<p>
+<a href="{{ month|date:"b" }}/">Entries for {{ month|date:"F" }}, {{ year }}</a>
+<ul>
+    {% for entry in entries %}
+    <li><a href="{{ entry.get_absolute_url }}">{{ entry }}</a></li>
+    {% endfor %}
+</ul>
+</p>
+{% endif %}
 {% endfor %}
+
+<p>
+{% if prior_year %}
+<a href="../{{ prior_year }}/">&lt;&lt; Entries for {{ prior_year }}</a>
+{% endif %}
+
+{% if prior_year and next_year %}
+|
+{% endif %}
+
+{% if next_year %}
+<a href="../{{ next_year }}/">Entries for {{next_year }} &gt;&gt;</a>
+{% endif %}
+</p>
+
 {% endblock %}

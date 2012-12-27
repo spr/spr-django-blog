@@ -56,3 +56,23 @@ def tag_list(request, **kwargs):
     except Tag.DoesNotExist:
         raise Http404
     return list_detail.object_list(request, **dict)
+
+def year_view(request, year, **kwargs):
+    entries_months = []
+    for month in xrange(1, 13):
+        entries_months.append(
+                (kwargs['queryset'].filter(created_on__year=year, 
+                                      created_on__month=month),
+                 datetime.datetime(year=int(year), month=month, day=1)))
+
+    prior_year, next_year = (None, None)
+    if len(kwargs['queryset'].filter(created_on__year=(int(year) - 1))) > 0:
+        prior_year = unicode(int(year) - 1)
+    if len(kwargs['queryset'].filter(created_on__year=(int(year) + 1))) > 0:
+        next_year = unicode(int(year) + 1)
+
+    return render_to_response('blog/entry_archive_year.html',
+        {'blog_title': settings.BLOG_TITLE, 'tag': Tag.objects.all(),
+            'entries_months': entries_months, 'year': year,
+            'prior_year': prior_year, 'next_year': next_year},
+            context_instance=RequestContext(request))

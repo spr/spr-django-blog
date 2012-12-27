@@ -8,7 +8,7 @@ from django.http import Http404
 from blog.models import Entry, Tag, Comment
 from django.conf import settings
 from blog.feeds import RecentEntries, EntriesByTag
-from blog.views import entry_detail, tag_list
+from blog.views import entry_detail, tag_list, year_view
 
 # Defining RSS Feeds
 feed_dict = {
@@ -30,7 +30,10 @@ entry_date = {'queryset': Entry.objects.filter(is_draft=False),
         'allow_empty': True,
         'extra_context': {'blog_title': settings.BLOG_TITLE}}
 
-first_entry_date = Entry.objects.order_by('created_on')[0].created_on
+if len(Entry.objects.all()) != 0:
+    first_entry_date = Entry.objects.order_by('created_on')[0].created_on
+else:
+    first_entry_date = datetime.datetime.now()
 
 def archive_month_wrapper(request, **kwargs):
     kwargs['allow_empty'] = True
@@ -52,7 +55,7 @@ urlpatterns += patterns('',
         url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$',
             archive_month_wrapper, entry_date, name="entry_month"),
         (r'^(?P<year>\d{4})/$',
-            date_based.archive_year, entry_date),
+            year_view, entry_date),
         (r'^draft/(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{2})/(?P<slug>[\w-]+)/$',
             login_required(entry_detail), {'draft': True}, "blog_draft_entry"),
         (r'^$',
